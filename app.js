@@ -535,13 +535,31 @@ document.addEventListener('DOMContentLoaded', () => {
             useCORS: true,
             backgroundColor: '#f8fafc'
           });
-          const link = document.createElement('a');
-          link.download = `${name}_성향분석결과.png`;
-          link.href = canvas.toDataURL('image/png');
-          link.click();
+          
+          const filename = `${name}_성향분석결과.png`;
+          const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+          const file = new File([blob], filename, { type: 'image/png' });
+
+          // Web Share API를 지원하면 네이티브 공유(갤러리 저장 등) 메뉴 호출
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({
+                files: [file],
+                title: '대상자 종합 분석 결과'
+              });
+            } catch (err) {
+              // 사용자가 취소한 경우는 무시, 에러일 경우 다운로드 폴백
+              if (err.name !== 'AbortError') {
+                fallbackDownload(canvas, filename);
+              }
+            }
+          } else {
+            // 지원하지 않으면 일반 다운로드
+            fallbackDownload(canvas, filename);
+          }
         } catch (err) {
           console.error('캡쳐 실패:', err);
-          alert('결과 캡쳐에 실패했습니다. html2canvas 라이브러리 로드를 확인해주세요.');
+          alert('결과 캡쳐에 실패했습니다.');
         } finally {
           // Restore buttons
           actionButtons.style.display = 'flex';
@@ -549,6 +567,13 @@ document.addEventListener('DOMContentLoaded', () => {
           captureBtn.disabled = false;
         }
       });
+    }
+
+    function fallbackDownload(canvas, filename) {
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
     }
   }
 
