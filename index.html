@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="에니어그램과 MBTI를 기반으로 성격 유형을 분석하고 대상자의 성향 프로필을 생성합니다.">
+  <title>대상자 종합 분석 | Personality Profile</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="app-header__icon">📊</div>
+      <h1 class="app-header__title">대상자 종합 분석</h1>
+      <p class="app-header__subtitle">핵심감정, 핵심신념, 방어기재 모를시에 공란</p>
+    </header>
+
+    <!-- Input Section -->
+    <section class="input-section" id="inputSection">
+      <div class="input-section__title">
+        <span>📝</span> 대상자 정보 입력
+      </div>
+      <form id="profileForm">
+        <!-- Row 1: Name + MBTI -->
+        <div class="input-grid input-grid--2col">
+          <div class="form-group">
+            <label for="nameInput">대상자 이름</label>
+            <input
+              type="text"
+              id="nameInput"
+              placeholder="이름을 입력하세요"
+              autocomplete="off"
+              required
+            >
+          </div>
+          <div class="form-group">
+            <label for="mbtiSelect">MBTI 유형</label>
+            <select id="mbtiSelect" required>
+              <option value="">유형 선택</option>
+              <optgroup label="분석형 (Analyst)">
+                <option value="INTJ">INTJ — 전략가</option>
+                <option value="INTP">INTP — 논리학자</option>
+                <option value="ENTJ">ENTJ — 통솔자</option>
+                <option value="ENTP">ENTP — 변론가</option>
+              </optgroup>
+              <optgroup label="외교형 (Diplomat)">
+                <option value="INFJ">INFJ — 옹호자</option>
+                <option value="INFP">INFP — 중재자</option>
+                <option value="ENFJ">ENFJ — 선도자</option>
+                <option value="ENFP">ENFP — 활동가</option>
+              </optgroup>
+              <optgroup label="관리형 (Sentinel)">
+                <option value="ISTJ">ISTJ — 현실주의자</option>
+                <option value="ISFJ">ISFJ — 수호자</option>
+                <option value="ESTJ">ESTJ — 경영자</option>
+                <option value="ESFJ">ESFJ — 집정관</option>
+              </optgroup>
+              <optgroup label="탐험형 (Explorer)">
+                <option value="ISTP">ISTP — 장인</option>
+                <option value="ISFP">ISFP — 모험가</option>
+                <option value="ESTP">ESTP — 사업가</option>
+                <option value="ESFP">ESFP — 연예인</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <!-- Row 2: Enneagram Top 3 -->
+        <div class="enneagram-group">
+          <div class="enneagram-group__label">
+            <span>🔺</span> 에니어그램 상위 3유형
+            <span class="enneagram-group__hint">가장 높은 점수 순서대로</span>
+          </div>
+          <div class="input-grid input-grid--3col">
+            <div class="form-group">
+              <label for="enneaTop1">1순위 (가장 높음)</label>
+              <select id="enneaTop1" class="ennea-select" data-rank="top" required>
+                <option value="">유형 선택</option>
+                <option value="1">1유형 — 개혁가</option>
+                <option value="2">2유형 — 조력가</option>
+                <option value="3">3유형 — 성취자</option>
+                <option value="4">4유형 — 예술가</option>
+                <option value="5">5유형 — 탐구자</option>
+                <option value="6">6유형 — 충실가</option>
+                <option value="7">7유형 — 열정가</option>
+                <option value="8">8유형 — 도전자</option>
+                <option value="9">9유형 — 평화주의자</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="enneaTop2">2순위</label>
+              <select id="enneaTop2" class="ennea-select" data-rank="top" required>
+                <option value="">유형 선택</option>
+                <option value="1">1유형 — 개혁가</option>
+                <option value="2">2유형 — 조력가</option>
+                <option value="3">3유형 — 성취자</option>
+                <option value="4">4유형 — 예술가</option>
+                <option value="5">5유형 — 탐구자</option>
+                <option value="6">6유형 — 충실가</option>
+                <option value="7">7유형 — 열정가</option>
+                <option value="8">8유형 — 도전자</option>
+                <option value="9">9유형 — 평화주의자</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="enneaTop3">3순위</label>
+              <select id="enneaTop3" class="ennea-select" data-rank="top" required>
+                <option value="">유형 선택</option>
+                <option value="1">1유형 — 개혁가</option>
+                <option value="2">2유형 — 조력가</option>
+                <option value="3">3유형 — 성취자</option>
+                <option value="4">4유형 — 예술가</option>
+                <option value="5">5유형 — 탐구자</option>
+                <option value="6">6유형 — 충실가</option>
+                <option value="7">7유형 — 열정가</option>
+                <option value="8">8유형 — 도전자</option>
+                <option value="9">9유형 — 평화주의자</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Enneagram Bottom 3 -->
+        <div class="enneagram-group">
+          <div class="enneagram-group__label">
+            <span>🔻</span> 에니어그램 하위 3유형
+            <span class="enneagram-group__hint">가장 낮은 점수 순서대로</span>
+          </div>
+          <div class="input-grid input-grid--3col">
+            <div class="form-group">
+              <label for="enneaBot1">7순위</label>
+              <select id="enneaBot1" class="ennea-select" data-rank="bottom" required>
+                <option value="">유형 선택</option>
+                <option value="1">1유형 — 개혁가</option>
+                <option value="2">2유형 — 조력가</option>
+                <option value="3">3유형 — 성취자</option>
+                <option value="4">4유형 — 예술가</option>
+                <option value="5">5유형 — 탐구자</option>
+                <option value="6">6유형 — 충실가</option>
+                <option value="7">7유형 — 열정가</option>
+                <option value="8">8유형 — 도전자</option>
+                <option value="9">9유형 — 평화주의자</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="enneaBot2">8순위</label>
+              <select id="enneaBot2" class="ennea-select" data-rank="bottom" required>
+                <option value="">유형 선택</option>
+                <option value="1">1유형 — 개혁가</option>
+                <option value="2">2유형 — 조력가</option>
+                <option value="3">3유형 — 성취자</option>
+                <option value="4">4유형 — 예술가</option>
+                <option value="5">5유형 — 탐구자</option>
+                <option value="6">6유형 — 충실가</option>
+                <option value="7">7유형 — 열정가</option>
+                <option value="8">8유형 — 도전자</option>
+                <option value="9">9유형 — 평화주의자</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="enneaBot3">9순위 (가장 낮음)</label>
+              <select id="enneaBot3" class="ennea-select" data-rank="bottom" required>
+                <option value="">유형 선택</option>
+                <option value="1">1유형 — 개혁가</option>
+                <option value="2">2유형 — 조력가</option>
+                <option value="3">3유형 — 성취자</option>
+                <option value="4">4유형 — 예술가</option>
+                <option value="5">5유형 — 탐구자</option>
+                <option value="6">6유형 — 충실가</option>
+                <option value="7">7유형 — 열정가</option>
+                <option value="8">8유형 — 도전자</option>
+                <option value="9">9유형 — 평화주의자</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 4: Core Emotions -->
+        <div class="extended-group">
+          <details class="extended-details">
+            <summary class="extended-summary"><span>❤️</span> 핵심 감정 (선택사항)</summary>
+            <div class="checkbox-grid checkbox-grid--4col">
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="1"><span class="checkmark"></span> 1. 부담감</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="2"><span class="checkmark"></span> 2. 경쟁심</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="3"><span class="checkmark"></span> 3. 억울함</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="4"><span class="checkmark"></span> 4. 열등감</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="5"><span class="checkmark"></span> 5. 외로움</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="6"><span class="checkmark"></span> 6. 그리움</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="7"><span class="checkmark"></span> 7. 질투</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="8"><span class="checkmark"></span> 8. 두려움</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="9"><span class="checkmark"></span> 9. 분노</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="10"><span class="checkmark"></span> 10. 무기력</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="11"><span class="checkmark"></span> 11. 허무</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="12"><span class="checkmark"></span> 12. 슬픔</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="13"><span class="checkmark"></span> 13. 불안</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="14"><span class="checkmark"></span> 14. 공포</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="15"><span class="checkmark"></span> 15. 소외</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreEmotions" value="16"><span class="checkmark"></span> 16. 적개심</label>
+            </div>
+          </details>
+        </div>
+
+        <!-- Row 5: Core Beliefs -->
+        <div class="extended-group">
+          <details class="extended-details">
+            <summary class="extended-summary"><span>🧠</span> 핵심 신념 (비합리적 신념) (선택사항)</summary>
+            <div class="checkbox-grid checkbox-grid--3col">
+              <label class="custom-checkbox"><input type="checkbox" name="coreBeliefs" value="1"><span class="checkmark"></span> 1. 인정에 대한 욕구</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreBeliefs" value="2"><span class="checkmark"></span> 2. 개인적 완벽성</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreBeliefs" value="3"><span class="checkmark"></span> 3. 비난 경향성</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreBeliefs" value="4"><span class="checkmark"></span> 4. 파국화</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreBeliefs" value="5"><span class="checkmark"></span> 5. 정서적 무책임</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreBeliefs" value="6"><span class="checkmark"></span> 6. 과잉 불안 염려</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreBeliefs" value="7"><span class="checkmark"></span> 7. 문제 회피</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreBeliefs" value="8"><span class="checkmark"></span> 8. 의존성</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreBeliefs" value="9"><span class="checkmark"></span> 9. 무력감(무기력)</label>
+              <label class="custom-checkbox"><input type="checkbox" name="coreBeliefs" value="10"><span class="checkmark"></span> 10. 완벽한 해결</label>
+            </div>
+          </details>
+        </div>
+
+        <!-- Row 6: Defense Mechanisms -->
+        <div class="extended-group">
+          <details class="extended-details">
+            <summary class="extended-summary"><span>🛡️</span> 방어기재 (선택사항)</summary>
+            <div class="defense-groups">
+              <div class="defense-group-box">
+                <div class="defense-group-title defense-group-title--narcissistic">🔴 자아도취 단계</div>
+                <div class="checkbox-grid checkbox-grid--1col">
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="1"><span class="checkmark"></span> 투사</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="2"><span class="checkmark"></span> 부정</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="3"><span class="checkmark"></span> 왜곡</label>
+                </div>
+              </div>
+              <div class="defense-group-box">
+                <div class="defense-group-title defense-group-title--immature">🟠 미성숙 단계</div>
+                <div class="checkbox-grid checkbox-grid--2col">
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="4"><span class="checkmark"></span> 동일시</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="5"><span class="checkmark"></span> 수동공격</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="6"><span class="checkmark"></span> 신체화</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="7"><span class="checkmark"></span> 행동화</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="8"><span class="checkmark"></span> 퇴행</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="9"><span class="checkmark"></span> 회피</label>
+                </div>
+              </div>
+              <div class="defense-group-box">
+                <div class="defense-group-title defense-group-title--neurotic">🟡 신경증적 단계</div>
+                <div class="checkbox-grid checkbox-grid--2col">
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="10"><span class="checkmark"></span> 허세</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="11"><span class="checkmark"></span> 반동형성</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="12"><span class="checkmark"></span> 전치</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="13"><span class="checkmark"></span> 통제</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="14"><span class="checkmark"></span> 합리화</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="15"><span class="checkmark"></span> 해리</label>
+                </div>
+              </div>
+              <div class="defense-group-box">
+                <div class="defense-group-title defense-group-title--mature">🟢 성숙 단계</div>
+                <div class="checkbox-grid checkbox-grid--1col">
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="16"><span class="checkmark"></span> 억제</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="17"><span class="checkmark"></span> 예견</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="18"><span class="checkmark"></span> 승화</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="19"><span class="checkmark"></span> 이타주의</label>
+                  <label class="custom-checkbox"><input type="checkbox" name="defenseMechanisms" value="20"><span class="checkmark"></span> 유머</label>
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- Validation message -->
+        <div class="validation-msg" id="validationMsg"></div>
+
+        <button type="submit" class="btn-analyze" id="analyzeBtn" disabled>
+          <span>✨</span> 성향 분석 시작
+        </button>
+      </form>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section" id="resultsSection"></section>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="data-extended.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
