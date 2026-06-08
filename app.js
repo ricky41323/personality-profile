@@ -490,9 +490,12 @@ document.addEventListener('DOMContentLoaded', () => {
       html += `</div>`;
     }
 
-    // ── New analysis button ──
+    // ── Action Buttons ──
     html += `
-      <div style="text-align: center; margin-top: 40px;">
+      <div style="text-align: center; margin-top: 40px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+        <button class="btn-new" id="captureBtn" type="button" style="background: var(--gradient-primary); color: white; border: none; box-shadow: var(--shadow-sm);">
+          <span>📸</span> 결과 캡쳐하기
+        </button>
         <button class="btn-new" id="newAnalysisBtn" type="button">
           <span>↩️</span> 새로운 분석 시작
         </button>
@@ -513,6 +516,40 @@ document.addEventListener('DOMContentLoaded', () => {
       inputSection.style.animation = 'fadeInUp 0.5s ease';
       nameInput.focus();
     });
+
+    // Capture button handler
+    const captureBtn = document.getElementById('captureBtn');
+    if (captureBtn) {
+      captureBtn.addEventListener('click', async () => {
+        const originalText = captureBtn.innerHTML;
+        captureBtn.innerHTML = '<span>⏳</span> 캡쳐 중...';
+        captureBtn.disabled = true;
+
+        // Hide buttons during capture
+        const actionButtons = captureBtn.parentElement;
+        actionButtons.style.display = 'none';
+
+        try {
+          const canvas = await html2canvas(resultsSection, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#f8fafc'
+          });
+          const link = document.createElement('a');
+          link.download = `${name}_성향분석결과.png`;
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+        } catch (err) {
+          console.error('캡쳐 실패:', err);
+          alert('결과 캡쳐에 실패했습니다. html2canvas 라이브러리 로드를 확인해주세요.');
+        } finally {
+          // Restore buttons
+          actionButtons.style.display = 'flex';
+          captureBtn.innerHTML = originalText;
+          captureBtn.disabled = false;
+        }
+      });
+    }
   }
 
   // Utility: escape HTML

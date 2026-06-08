@@ -897,7 +897,7 @@ body::before {
 /* Custom Checkbox */
 .custom-checkbox {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   position: relative;
   cursor: pointer;
@@ -905,6 +905,8 @@ body::before {
   color: var(--text-secondary);
   user-select: none;
   transition: color var(--transition-fast);
+  line-height: 1.4;
+  word-break: keep-all;
 }
 
 .custom-checkbox:hover {
@@ -920,6 +922,8 @@ body::before {
 }
 
 .checkmark {
+  flex-shrink: 0;
+  margin-top: 1px;
   width: 18px;
   height: 18px;
   background-color: var(--bg-input);
@@ -1152,6 +1156,19 @@ body::before {
   .input-grid--3col {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .checkbox-grid--4col,
+  .checkbox-grid--3col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 480px) {
+    .checkbox-grid--4col,
+    .checkbox-grid--3col,
+    .checkbox-grid--2col {
+      grid-template-columns: 1fr;
+    }
   }
 
   .ennea-mini-cards {
