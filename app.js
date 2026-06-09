@@ -6,60 +6,55 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('profileForm');
   const nameInput = document.getElementById('nameInput');
-  const mbtiSelect = document.getElementById('mbtiSelect');
+  const mbtiInput = document.getElementById('mbtiInput');
+  const enneaInput = document.getElementById('enneaInput');
   const analyzeBtn = document.getElementById('analyzeBtn');
   const inputSection = document.getElementById('inputSection');
   const resultsSection = document.getElementById('resultsSection');
   const validationMsg = document.getElementById('validationMsg');
 
-  // Enneagram selects
-  const enneaSelects = {
-    top: [
-      document.getElementById('enneaTop1'),
-      document.getElementById('enneaTop2'),
-      document.getElementById('enneaTop3')
-    ],
-    bottom: [
-      document.getElementById('enneaBot1'),
-      document.getElementById('enneaBot2'),
-      document.getElementById('enneaBot3')
-    ]
-  };
+  function parseMBTI(val) {
+    if(!val) return null;
+    const cleaned = val.replace(/\([^)]*\)/g, '').toUpperCase();
+    const match = cleaned.match(/[IE][SN][TF][JP]/);
+    return match ? match[0] : null;
+  }
 
-  const allEnneaSelects = [...enneaSelects.top, ...enneaSelects.bottom];
+  function parseEnnea(val) {
+    if(!val) return null;
+    const digits = val.replace(/\D/g, '');
+    if (digits.length >= 3) {
+      return [parseInt(digits[0]), parseInt(digits[1]), parseInt(digits[2])];
+    }
+    return null;
+  }
 
-  // Form validation
   function validateForm() {
     const nameValid = nameInput.value.trim() !== '';
-    const mbtiValid = mbtiSelect.value !== '';
-    const allEnneaFilled = allEnneaSelects.every(s => s.value !== '');
-
-    // Check for duplicates
-    let dupError = '';
-    if (allEnneaFilled) {
-      const allValues = allEnneaSelects.map(s => s.value);
-      const unique = new Set(allValues);
-      if (unique.size !== allValues.length) {
-        dupError = '⚠️ 에니어그램 유형이 중복되었습니다. 각 유형은 한 번만 선택해 주세요.';
-      }
-      // Check top and bottom overlap
-      const topValues = enneaSelects.top.map(s => s.value);
-      const botValues = enneaSelects.bottom.map(s => s.value);
-      const overlap = topValues.filter(v => botValues.includes(v));
-      if (overlap.length > 0) {
-        dupError = '⚠️ 상위와 하위에 같은 유형이 선택되었습니다.';
+    const mbti = parseMBTI(mbtiInput.value);
+    const ennea = parseEnnea(enneaInput.value);
+    
+    let errorMsg = '';
+    if (mbtiInput.value.trim() !== '' && !mbti) {
+      errorMsg = '⚠️ 올바른 MBTI 형식이 아닙니다. (예: ISFJ)';
+    } else if (enneaInput.value.trim() !== '' && !ennea) {
+      errorMsg = '⚠️ 에니어그램은 최소 3개의 숫자가 포함되어야 합니다. (예: 619)';
+    } else if (ennea) {
+      const unique = new Set(ennea);
+      if (unique.size !== 3) {
+        errorMsg = '⚠️ 에니어그램 상위 3유형은 서로 달라야 합니다.';
       }
     }
 
-    validationMsg.textContent = dupError;
-    const isValid = nameValid && mbtiValid && allEnneaFilled && dupError === '';
+    validationMsg.textContent = errorMsg;
+    const isValid = nameValid && !!mbti && !!ennea && errorMsg === '';
     analyzeBtn.disabled = !isValid;
     return isValid;
   }
 
   nameInput.addEventListener('input', validateForm);
-  mbtiSelect.addEventListener('change', validateForm);
-  allEnneaSelects.forEach(s => s.addEventListener('change', validateForm));
+  mbtiInput.addEventListener('input', validateForm);
+  enneaInput.addEventListener('input', validateForm);
 
   // Form submit
   form.addEventListener('submit', (e) => {
@@ -67,9 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!validateForm()) return;
 
     const name = nameInput.value.trim();
-    const mbtiType = mbtiSelect.value;
-    const topTypes = enneaSelects.top.map(s => parseInt(s.value));
-    const bottomTypes = enneaSelects.bottom.map(s => parseInt(s.value));
+    const mbtiType = parseMBTI(mbtiInput.value);
+    const topTypes = parseEnnea(enneaInput.value);
+    const bottomTypes = []; // Removed bottom types
 
     const coreEmotions = Array.from(document.querySelectorAll('input[name="coreEmotions"]:checked')).map(cb => parseInt(cb.value));
     const coreBeliefs = Array.from(document.querySelectorAll('input[name="coreBeliefs"]:checked')).map(cb => parseInt(cb.value));
@@ -250,36 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    // ── Enneagram: Bottom 3 Types (약한 성향) ──
-    html += `
-      <div class="section-title" style="margin-top:40px;">🔻 약하게 나타나는 성향 (하위 3유형)</div>
-    `;
-    html += `<div class="result-cards">`;
-    bottomEnneaData.forEach((e, i) => {
-      const rankLabel = `${i + 7}순위`;
-      html += `
-        <div class="result-card result-card--enneagram animate-in" style="opacity:0.85;">
-          <div class="result-card__header">
-            <div class="result-card__icon">${e.data.emoji}</div>
-            <div>
-              <div class="result-card__title">에니어그램 ${e.type}유형 (${rankLabel})</div>
-              <div class="result-card__subtitle">${e.data.name}</div>
-            </div>
-          </div>
-          <p class="result-card__description">${e.data.description}</p>
-          <div class="trait-section">
-            <div class="trait-section__title">핵심 욕구</div>
-            <p class="result-card__description" style="margin-bottom:0">${e.data.coreDesire}</p>
-          </div>
-          <div class="trait-section">
-            <div class="trait-section__title">이 성향이 약하다는 의미</div>
-            <p class="result-card__description" style="margin-bottom:0; color:var(--accent-rose);">"${e.data.coreDesire}"에 대한 관심이 상대적으로 낮으며, ${e.data.name}의 특성이 잘 나타나지 않습니다.</p>
-          </div>
-        </div>
-      `;
-    });
-    html += `</div>`;
-
     // ── Comprehensive Enneagram Synthesis ──
     html += `
       <div class="synergy-card animate-in" style="margin-top:24px;">
@@ -287,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="synergy-card__icon">🔍</div>
           <div>
             <div class="synergy-card__title">에니어그램 종합 분석</div>
-            <div class="synergy-card__subtitle">상위 3유형 + 하위 3유형을 통한 통합적 해석</div>
+            <div class="synergy-card__subtitle">상위 3유형을 통한 통합적 해석</div>
           </div>
         </div>
         <div class="synergy-card__body">
@@ -316,21 +281,11 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
           <div class="synergy-item">
-            <div class="synergy-item__label">🔻 보완이 필요한 영역</div>
-            <div class="synergy-item__text">
-              하위 유형 분석 결과, <strong>${bottomEnneaData[0].type}유형(${bottomEnneaData[0].data.name})</strong>,
-              <strong>${bottomEnneaData[1].type}유형(${bottomEnneaData[1].data.name})</strong>,
-              <strong>${bottomEnneaData[2].type}유형(${bottomEnneaData[2].data.name})</strong>의 성향이 약하게 나타납니다.
-              특히 "${bottomEnneaData[2].data.coreDesire}"와 같은 가치에 대한 관심이 낮아,
-              이 영역을 의식적으로 개발하면 더 균형 잡힌 성장이 가능합니다.
-            </div>
-          </div>
-          <div class="synergy-item">
             <div class="synergy-item__label">🌱 통합적 성장 방향</div>
             <div class="synergy-item__text">
               ${topEnneaData[0].type}유형의 성장 방향(${topEnneaData[0].data.growthDirection})을 기본으로 삼되,
               ${topEnneaData[1].type}유형의 강점과 ${topEnneaData[2].type}유형의 강점을 활용하는 것이 효과적입니다.
-              동시에, 하위 유형인 ${bottomEnneaData[2].type}유형(${bottomEnneaData[2].data.name})의 긍정적 측면—${bottomEnneaData[2].data.strengths.slice(0, 2).join(', ')}—을 조금씩 연습해보는 것을 권합니다.
+              서로 다른 유형의 긍정적인 면을 균형있게 발전시키는 연습을 권장합니다.
             </div>
           </div>
         </div>

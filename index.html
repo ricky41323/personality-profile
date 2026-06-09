@@ -23,8 +23,8 @@
         <span>📝</span> 대상자 정보 입력
       </div>
       <form id="profileForm">
-        <!-- Row 1: Name + MBTI -->
-        <div class="input-grid input-grid--2col">
+        <!-- Row 1: Basic Info (Name, MBTI, Enneagram) -->
+        <div class="input-grid input-grid--3col">
           <div class="form-group">
             <label for="nameInput">대상자 이름</label>
             <input
@@ -36,144 +36,24 @@
             >
           </div>
           <div class="form-group">
-            <label for="mbtiSelect">MBTI 유형</label>
-            <select id="mbtiSelect" required>
-              <option value="">유형 선택</option>
-              <optgroup label="분석형 (Analyst)">
-                <option value="INTJ">INTJ — 전략가</option>
-                <option value="INTP">INTP — 논리학자</option>
-                <option value="ENTJ">ENTJ — 통솔자</option>
-                <option value="ENTP">ENTP — 변론가</option>
-              </optgroup>
-              <optgroup label="외교형 (Diplomat)">
-                <option value="INFJ">INFJ — 옹호자</option>
-                <option value="INFP">INFP — 중재자</option>
-                <option value="ENFJ">ENFJ — 선도자</option>
-                <option value="ENFP">ENFP — 활동가</option>
-              </optgroup>
-              <optgroup label="관리형 (Sentinel)">
-                <option value="ISTJ">ISTJ — 현실주의자</option>
-                <option value="ISFJ">ISFJ — 수호자</option>
-                <option value="ESTJ">ESTJ — 경영자</option>
-                <option value="ESFJ">ESFJ — 집정관</option>
-              </optgroup>
-              <optgroup label="탐험형 (Explorer)">
-                <option value="ISTP">ISTP — 장인</option>
-                <option value="ISFP">ISFP — 모험가</option>
-                <option value="ESTP">ESTP — 사업가</option>
-                <option value="ESFP">ESFP — 연예인</option>
-              </optgroup>
-            </select>
+            <label for="mbtiInput">MBTI 유형</label>
+            <input
+              type="text"
+              id="mbtiInput"
+              placeholder="예: ISFJ, ENFP 등"
+              autocomplete="off"
+              required
+            >
           </div>
-        </div>
-
-        <!-- Row 2: Enneagram Top 3 -->
-        <div class="enneagram-group">
-          <div class="enneagram-group__label">
-            <span>🔺</span> 에니어그램 상위 3유형
-            <span class="enneagram-group__hint">가장 높은 점수 순서대로</span>
-          </div>
-          <div class="input-grid input-grid--3col">
-            <div class="form-group">
-              <label for="enneaTop1">1순위 (가장 높음)</label>
-              <select id="enneaTop1" class="ennea-select" data-rank="top" required>
-                <option value="">유형 선택</option>
-                <option value="1">1유형 — 개혁가</option>
-                <option value="2">2유형 — 조력가</option>
-                <option value="3">3유형 — 성취자</option>
-                <option value="4">4유형 — 예술가</option>
-                <option value="5">5유형 — 탐구자</option>
-                <option value="6">6유형 — 충실가</option>
-                <option value="7">7유형 — 열정가</option>
-                <option value="8">8유형 — 도전자</option>
-                <option value="9">9유형 — 평화주의자</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="enneaTop2">2순위</label>
-              <select id="enneaTop2" class="ennea-select" data-rank="top" required>
-                <option value="">유형 선택</option>
-                <option value="1">1유형 — 개혁가</option>
-                <option value="2">2유형 — 조력가</option>
-                <option value="3">3유형 — 성취자</option>
-                <option value="4">4유형 — 예술가</option>
-                <option value="5">5유형 — 탐구자</option>
-                <option value="6">6유형 — 충실가</option>
-                <option value="7">7유형 — 열정가</option>
-                <option value="8">8유형 — 도전자</option>
-                <option value="9">9유형 — 평화주의자</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="enneaTop3">3순위</label>
-              <select id="enneaTop3" class="ennea-select" data-rank="top" required>
-                <option value="">유형 선택</option>
-                <option value="1">1유형 — 개혁가</option>
-                <option value="2">2유형 — 조력가</option>
-                <option value="3">3유형 — 성취자</option>
-                <option value="4">4유형 — 예술가</option>
-                <option value="5">5유형 — 탐구자</option>
-                <option value="6">6유형 — 충실가</option>
-                <option value="7">7유형 — 열정가</option>
-                <option value="8">8유형 — 도전자</option>
-                <option value="9">9유형 — 평화주의자</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Row 3: Enneagram Bottom 3 -->
-        <div class="enneagram-group">
-          <div class="enneagram-group__label">
-            <span>🔻</span> 에니어그램 하위 3유형
-            <span class="enneagram-group__hint">가장 낮은 점수 순서대로</span>
-          </div>
-          <div class="input-grid input-grid--3col">
-            <div class="form-group">
-              <label for="enneaBot1">7순위</label>
-              <select id="enneaBot1" class="ennea-select" data-rank="bottom" required>
-                <option value="">유형 선택</option>
-                <option value="1">1유형 — 개혁가</option>
-                <option value="2">2유형 — 조력가</option>
-                <option value="3">3유형 — 성취자</option>
-                <option value="4">4유형 — 예술가</option>
-                <option value="5">5유형 — 탐구자</option>
-                <option value="6">6유형 — 충실가</option>
-                <option value="7">7유형 — 열정가</option>
-                <option value="8">8유형 — 도전자</option>
-                <option value="9">9유형 — 평화주의자</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="enneaBot2">8순위</label>
-              <select id="enneaBot2" class="ennea-select" data-rank="bottom" required>
-                <option value="">유형 선택</option>
-                <option value="1">1유형 — 개혁가</option>
-                <option value="2">2유형 — 조력가</option>
-                <option value="3">3유형 — 성취자</option>
-                <option value="4">4유형 — 예술가</option>
-                <option value="5">5유형 — 탐구자</option>
-                <option value="6">6유형 — 충실가</option>
-                <option value="7">7유형 — 열정가</option>
-                <option value="8">8유형 — 도전자</option>
-                <option value="9">9유형 — 평화주의자</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="enneaBot3">9순위 (가장 낮음)</label>
-              <select id="enneaBot3" class="ennea-select" data-rank="bottom" required>
-                <option value="">유형 선택</option>
-                <option value="1">1유형 — 개혁가</option>
-                <option value="2">2유형 — 조력가</option>
-                <option value="3">3유형 — 성취자</option>
-                <option value="4">4유형 — 예술가</option>
-                <option value="5">5유형 — 탐구자</option>
-                <option value="6">6유형 — 충실가</option>
-                <option value="7">7유형 — 열정가</option>
-                <option value="8">8유형 — 도전자</option>
-                <option value="9">9유형 — 평화주의자</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label for="enneaInput">에니어그램 (상위 3유형)</label>
+            <input
+              type="text"
+              id="enneaInput"
+              placeholder="예: 619, 6 1 9 등"
+              autocomplete="off"
+              required
+            >
           </div>
         </div>
 
