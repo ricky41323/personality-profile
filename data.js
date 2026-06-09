@@ -522,135 +522,73 @@ const MBTI_FRIENDSHIP_TIPS = {
 };
 
 // ============================================================
-// Synergy Analysis - Enneagram × MBTI 조합 분석
+// MBTI Compatibility - 잘 맞는 성향 추천
 // ============================================================
 
-function generateSynergyAnalysis(enneagramType, mbtiType) {
-  const ennea = ENNEAGRAM_DATA[enneagramType];
-  const mbti = MBTI_DATA[mbtiType];
-
-  if (!ennea || !mbti) return null;
-
-  // Energy dimension analysis
-  const isExtrovert = mbtiType.startsWith('E');
-  const isIntrovert = mbtiType.startsWith('I');
-  const isFeelingEnnea = [2, 3, 4].includes(enneagramType);
-  const isThinkingEnnea = [5, 6, 7].includes(enneagramType);
-  const isInstinctEnnea = [8, 9, 1].includes(enneagramType);
-
-  // MBTI dimensions
-  const hasFeeling = mbtiType.includes('F');
-  const hasThinking = mbtiType.includes('T');
-  const hasIntuition = mbtiType.includes('N');
-  const hasSensing = mbtiType.includes('S');
-  const hasJudging = mbtiType.includes('J');
-  const hasPerceiving = mbtiType.includes('P');
-
-  let synergyPoints = [];
-
-  // Core dynamic analysis
-  if (isFeelingEnnea && hasFeeling) {
-    synergyPoints.push({
-      label: "핵심 역동",
-      text: `감정 중심의 에니어그램 ${enneagramType}유형과 감정(F) 선호 MBTI가 결합되어, 감정적 깊이와 공감 능력이 매우 강화됩니다. 타인의 감정에 대한 민감함이 뛰어나지만, 감정에 압도당할 수 있어 객관적 거리두기 연습이 필요합니다.`
-    });
-  } else if (isFeelingEnnea && hasThinking) {
-    synergyPoints.push({
-      label: "핵심 역동",
-      text: `감정 중심의 에니어그램 ${enneagramType}유형이면서 사고(T) 선호 MBTI의 조합은 내면의 갈등을 만들 수 있습니다. 감정적 욕구가 있지만 이를 논리적으로 처리하려 하여, 겉으로는 냉정해 보이지만 속으로는 깊은 감정이 흐릅니다.`
-    });
-  } else if (isThinkingEnnea && hasThinking) {
-    synergyPoints.push({
-      label: "핵심 역동",
-      text: `사고 중심의 에니어그램 ${enneagramType}유형과 사고(T) 선호 MBTI가 결합되어, 뛰어난 분석력과 객관성을 갖추고 있습니다. 하지만 감정을 지나치게 무시하거나 합리화하는 경향이 있어, 감정적 경험을 존중하는 연습이 도움이 됩니다.`
-    });
-  } else if (isThinkingEnnea && hasFeeling) {
-    synergyPoints.push({
-      label: "핵심 역동",
-      text: `사고 중심의 에니어그램 ${enneagramType}유형이면서 감정(F) 선호 MBTI의 조합은 독특한 균형을 만듭니다. 분석적 사고와 감정적 이해를 함께 갖추어, 사람의 감정을 이해하면서도 논리적 판단을 내릴 수 있는 능력이 있습니다.`
-    });
-  } else if (isInstinctEnnea && hasJudging) {
-    synergyPoints.push({
-      label: "핵심 역동",
-      text: `본능 중심의 에니어그램 ${enneagramType}유형과 판단(J) 선호 MBTI가 결합되어, 강한 실행력과 결단력을 갖추고 있습니다. 목표를 향한 추진력이 뛰어나지만, 때로 유연성이 부족할 수 있습니다.`
-    });
-  } else if (isInstinctEnnea && hasPerceiving) {
-    synergyPoints.push({
-      label: "핵심 역동",
-      text: `본능 중심의 에니어그램 ${enneagramType}유형이면서 인식(P) 선호 MBTI의 조합은 본능적 에너지와 유연성이 공존합니다. 상황에 따라 강하게 밀어붙이기도 하고 유연하게 흐름을 타기도 하는 독특한 패턴을 보입니다.`
-    });
+const MBTI_COMPATIBILITY = {
+  "INTJ": {
+    bestMatch: ["ENFP", "ENTP"],
+    reason: "ENFP/ENTP의 열정적이고 창의적인 에너지가 INTJ의 전략적 사고와 결합되면, 비전을 현실로 만드는 강력한 시너지가 발생합니다. 직관(N) 기반의 깊은 대화가 가능하며, 서로의 부족한 부분을 자연스럽게 채워줍니다."
+  },
+  "INTP": {
+    bestMatch: ["ENTJ", "ENFJ"],
+    reason: "ENTJ/ENFJ의 결단력과 추진력이 INTP의 깊은 분석력에 실행력을 더해줍니다. INTP가 머릿속에서 구상한 아이디어를 현실로 끌어내 주는 파트너이며, 지적 교류가 풍부한 관계를 만듭니다."
+  },
+  "ENTJ": {
+    bestMatch: ["INTP", "INFP"],
+    reason: "INTP/INFP의 깊은 사고력과 창의성이 ENTJ의 실행력과 리더십에 새로운 관점을 제공합니다. ENTJ가 놓치기 쉬운 내면의 가치와 감정적 깊이를 보완받을 수 있는 조합입니다."
+  },
+  "ENTP": {
+    bestMatch: ["INFJ", "INTJ"],
+    reason: "INFJ/INTJ의 깊은 통찰력과 집중력이 ENTP의 창의적 에너지에 방향성을 부여합니다. 아이디어를 실현 가능한 비전으로 다듬어주며, 끝없는 지적 탐구를 함께 즐길 수 있습니다."
+  },
+  "INFJ": {
+    bestMatch: ["ENFP", "ENTP"],
+    reason: "ENFP/ENTP의 에너지와 낙관주의가 INFJ의 내면 세계에 활력을 불어넣습니다. 직관(N) 기반의 깊은 대화가 자연스럽게 이뤄지며, INFJ가 소중히 여기는 진정성 있는 관계를 형성할 수 있습니다."
+  },
+  "INFP": {
+    bestMatch: ["ENFJ", "ENTJ"],
+    reason: "ENFJ/ENTJ의 리더십과 실행력이 INFP의 풍부한 내면과 창의성에 구조와 방향을 제공합니다. INFP의 이상주의가 현실에서 꽃필 수 있도록 도와주는 안정적이면서도 성장을 자극하는 관계입니다."
+  },
+  "ENFJ": {
+    bestMatch: ["INFP", "ISFP"],
+    reason: "INFP/ISFP의 진정성과 감수성이 ENFJ의 따뜻한 리더십과 조화를 이룹니다. 서로의 감정을 깊이 이해하며, ENFJ가 돌보고 INFP/ISFP가 영감을 주는 상호 보완적인 관계를 만듭니다."
+  },
+  "ENFP": {
+    bestMatch: ["INFJ", "INTJ"],
+    reason: "INFJ/INTJ의 깊이와 집중력이 ENFP의 열정적 에너지에 안정감을 줍니다. 직관(N) 기반의 풍부한 대화가 가능하며, ENFP의 다양한 아이디어에 깊이를 더해주는 균형 잡힌 관계입니다."
+  },
+  "ISTJ": {
+    bestMatch: ["ESFP", "ESTP"],
+    reason: "ESFP/ESTP의 유연함과 즉흥성이 ISTJ의 체계적이고 안정적인 성향에 활력을 불어넣습니다. ISTJ가 제공하는 안정감 위에서 ESFP/ESTP의 에너지가 관계에 재미와 새로움을 더합니다."
+  },
+  "ISFJ": {
+    bestMatch: ["ESFP", "ESTP"],
+    reason: "ESFP/ESTP의 사교적이고 활발한 에너지가 ISFJ의 조용하지만 따뜻한 돌봄과 균형을 이룹니다. ISFJ의 세심한 배려에 ESFP/ESTP가 적극적으로 감사와 애정을 표현하는 조화로운 관계입니다."
+  },
+  "ESTJ": {
+    bestMatch: ["ISFP", "ISTP"],
+    reason: "ISFP/ISTP의 유연성과 적응력이 ESTJ의 체계적인 리더십에 부드러움을 더합니다. ESTJ가 구조를 만들고 ISFP/ISTP가 그 안에서 자유롭게 움직이며 서로에게 새로운 관점을 제공합니다."
+  },
+  "ESFJ": {
+    bestMatch: ["ISFP", "ISTP"],
+    reason: "ISFP/ISTP의 독립적이고 차분한 성향이 ESFJ의 사교적이고 돌보는 성향과 균형을 이룹니다. ESFJ의 따뜻함이 ISFP/ISTP의 마음을 열어주고, 서로 다른 강점이 관계를 풍요롭게 합니다."
+  },
+  "ISTP": {
+    bestMatch: ["ESFJ", "ESTJ"],
+    reason: "ESFJ/ESTJ의 따뜻한 사교성과 조직력이 ISTP의 독립적이고 분석적인 성향에 사회적 연결고리를 제공합니다. ISTP의 문제 해결 능력이 빛나는 실용적이면서도 정서적으로 균형 잡힌 관계입니다."
+  },
+  "ISFP": {
+    bestMatch: ["ENFJ", "ESFJ", "ESTJ"],
+    reason: "ENFJ/ESFJ/ESTJ의 적극적이고 구조적인 성향이 ISFP의 자유로운 감성에 안정감을 줍니다. ISFP의 예술적 감수성이 관계에 아름다움을 더하고, 상대방의 리더십이 ISFP의 잠재력을 이끌어줍니다."
+  },
+  "ESTP": {
+    bestMatch: ["ISFJ", "ISTJ"],
+    reason: "ISFJ/ISTJ의 안정감과 헌신이 ESTP의 역동적인 에너지에 든든한 기반을 제공합니다. ESTP의 모험심과 ISFJ/ISTJ의 꾸준함이 결합되어 흥미롭고 안정적인 관계를 형성합니다."
+  },
+  "ESFP": {
+    bestMatch: ["ISFJ", "ISTJ"],
+    reason: "ISFJ/ISTJ의 신뢰성과 인내심이 ESFP의 활발하고 자유로운 성향에 안정감을 줍니다. ESFP가 관계에 즐거움과 에너지를, ISFJ/ISTJ가 깊이와 안정감을 더하는 보완적인 조합입니다."
   }
+};
 
-  // Social energy analysis
-  if (isExtrovert && [2, 3, 7, 8].includes(enneagramType)) {
-    synergyPoints.push({
-      label: "사회적 에너지",
-      text: "외향적 MBTI와 활동적인 에니어그램 유형이 결합되어 사회적 에너지가 매우 높습니다. 사교적이고 영향력이 크지만, 혼자만의 시간을 통해 내면을 돌아보는 것이 성장에 중요합니다."
-    });
-  } else if (isIntrovert && [4, 5, 9].includes(enneagramType)) {
-    synergyPoints.push({
-      label: "사회적 에너지",
-      text: "내향적 MBTI와 내면 지향적 에니어그램 유형이 결합되어 깊은 내면 세계를 가지고 있습니다. 혼자만의 시간에서 에너지를 충전하지만, 적극적인 사회적 참여를 통해 균형을 맞추는 것이 필요합니다."
-    });
-  } else if (isExtrovert && [4, 5, 9].includes(enneagramType)) {
-    synergyPoints.push({
-      label: "사회적 에너지",
-      text: "외향적 MBTI이면서 내면 지향적 에니어그램을 가진 독특한 조합입니다. 사교적으로 보이지만 내면에서는 깊은 성찰이 이뤄지고 있으며, 외부 활동과 내면 탐구 사이에서 균형을 찾는 여정에 있습니다."
-    });
-  } else if (isIntrovert && [2, 3, 7, 8].includes(enneagramType)) {
-    synergyPoints.push({
-      label: "사회적 에너지",
-      text: "내향적 MBTI이면서 활동적인 에니어그램 유형의 흥미로운 조합입니다. 조용하지만 내면에 강한 에너지와 열망을 품고 있으며, 선택적으로 에너지를 집중하여 깊은 영향력을 발휘합니다."
-    });
-  }
-
-  // Growth insight
-  const growthInsights = {
-    // Some notable combinations
-    "1-INTJ": "완벽주의적 전략가로서 높은 기준과 체계적 사고가 결합됩니다. 자기 비판과 타인에 대한 비판을 모두 내려놓는 연습이 성장의 열쇠입니다.",
-    "2-ENFJ": "타인을 돕고 이끄는 능력이 극대화되지만, 자기 돌봄과 경계 설정이 가장 중요한 성장 과제입니다.",
-    "3-ENTJ": "성취와 리더십이 강력하게 결합되어 큰 성과를 이룰 수 있지만, '존재 자체의 가치'를 인정하는 것이 핵심 성장 과제입니다.",
-    "4-INFP": "깊은 감수성과 내면의 가치가 강하게 결합됩니다. 현실적 행동력을 키우고 자기 연민에서 벗어나는 것이 성장 포인트입니다.",
-    "5-INTP": "지적 탐구와 분석이 극대화됩니다. 머릿속 세계에서 나와 현실의 관계와 경험에 참여하는 것이 성장의 핵심입니다.",
-    "6-ISFJ": "안전과 돌봄에 대한 욕구가 매우 강합니다. 불안을 내려놓고 삶에 대한 신뢰를 키우는 것이 가장 큰 성장 과제입니다.",
-    "7-ENFP": "열정과 가능성에 대한 탐구가 극대화됩니다. 한 곳에 깊이 머무르고, 부정적 감정도 수용하는 것이 성장의 열쇠입니다.",
-    "8-ESTP": "행동력과 대담함이 강력하게 결합됩니다. 취약한 감정을 인정하고, 부드러운 면을 표현하는 것이 성장의 핵심입니다.",
-    "9-ISFP": "평화와 조화에 대한 욕구가 매우 강합니다. 자신의 목소리를 내고, 갈등을 회피하지 않는 용기를 키우는 것이 핵심입니다."
-  };
-
-  const key = `${enneagramType}-${mbtiType}`;
-  if (growthInsights[key]) {
-    synergyPoints.push({
-      label: "성장 인사이트",
-      text: growthInsights[key]
-    });
-  } else {
-    // Generate general growth insight
-    let growthText = `에니어그램 ${enneagramType}유형(${ennea.name})과 ${mbtiType}(${mbti.name})의 조합에서, `;
-    
-    if (hasIntuition && [1, 4, 5].includes(enneagramType)) {
-      growthText += "이상과 통찰을 실제 행동으로 옮기는 실행력을 키우는 것이 성장의 핵심입니다. 머릿속의 완벽한 비전을 현실에서 '충분히 좋은' 수준으로 구현하는 연습이 도움이 됩니다.";
-    } else if (hasSensing && [7, 8, 3].includes(enneagramType)) {
-      growthText += "현실적 행동력과 에너지를 장기적 비전과 연결하고, 속도를 늦춰 깊이 있는 성찰의 시간을 갖는 것이 성장 포인트입니다.";
-    } else if (hasFeeling && [1, 5, 8].includes(enneagramType)) {
-      growthText += "감정적 이해력을 활용하여 자신의 엄격함이나 분석적 경향을 부드럽게 만들 수 있습니다. 감정을 '약함'이 아닌 '정보'로 받아들이는 것이 중요합니다.";
-    } else if (hasThinking && [2, 4, 9].includes(enneagramType)) {
-      growthText += "논리적 사고를 활용하여 감정적 패턴에서 객관적 거리를 두는 것이 도움이 됩니다. 감정과 논리의 균형을 찾는 것이 이 조합의 성장 과제입니다.";
-    } else {
-      growthText += "두 유형의 강점을 통합하면서 각각의 약점을 보완하는 균형적 성장이 핵심입니다. 자신의 자연스러운 패턴을 인식하고, 의식적으로 성장 방향으로 나아가는 연습이 중요합니다.";
-    }
-
-    synergyPoints.push({
-      label: "성장 인사이트",
-      text: growthText
-    });
-  }
-
-  // Relationship & Communication summary
-  synergyPoints.push({
-    label: "관계 & 소통 요약",
-    text: `${mbti.communicationStyle} 에니어그램 ${enneagramType}유형의 특성과 결합하면, ${ennea.communicationTips[0].toLowerCase()} ${ennea.communicationTips[2].toLowerCase()}`
-  });
-
-  return synergyPoints;
-}

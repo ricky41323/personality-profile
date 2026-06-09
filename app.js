@@ -245,52 +245,32 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    // ── Comprehensive Enneagram Synthesis ──
-    html += `
-      <div class="synergy-card animate-in" style="margin-top:24px;">
-        <div class="synergy-card__header">
-          <div class="synergy-card__icon">🔍</div>
-          <div>
-            <div class="synergy-card__title">에니어그램 종합 분석</div>
-            <div class="synergy-card__subtitle">상위 3유형을 통한 통합적 해석</div>
-          </div>
-        </div>
-        <div class="synergy-card__body">
-          <div class="synergy-item">
-            <div class="synergy-item__label">📌 핵심 성향 요약</div>
-            <div class="synergy-item__text">
-              <strong>${escapeHtml(name)}</strong>님은 <strong>${topEnneaData[0].type}유형(${topEnneaData[0].data.name})</strong>을 주축으로,
-              <strong>${topEnneaData[1].type}유형(${topEnneaData[1].data.name})</strong>과
-              <strong>${topEnneaData[2].type}유형(${topEnneaData[2].data.name})</strong>의 특성이 복합적으로 나타나는 성격 구조를 보입니다.
+    // ── 잘 맞는 성향 추천 ──
+    const compat = typeof MBTI_COMPATIBILITY !== 'undefined' ? MBTI_COMPATIBILITY[mbtiType] : null;
+    if (compat) {
+      const matchBadges = compat.bestMatch.map(m => {
+        const matchData = MBTI_DATA[m];
+        return matchData ? `<span class="badge badge--mbti" style="background:var(--accent-emerald); color:#059669;">${matchData.emoji} ${m} · ${matchData.name}</span>` : `<span class="badge badge--mbti">${m}</span>`;
+      }).join('');
+      html += `
+        <div class="synergy-card animate-in" style="margin-top:24px;">
+          <div class="synergy-card__header">
+            <div class="synergy-card__icon">💕</div>
+            <div>
+              <div class="synergy-card__title">잘 맞는 성향 추천</div>
+              <div class="synergy-card__subtitle">${mbtiType}와 시너지가 좋은 유형</div>
             </div>
           </div>
-          <div class="synergy-item">
-            <div class="synergy-item__label">💡 주요 욕구 패턴</div>
-            <div class="synergy-item__text">
-              "${topEnneaData[0].data.coreDesire}"가 가장 강한 내적 동력이며,
-              여기에 "${topEnneaData[1].data.coreDesire}"와 "${topEnneaData[2].data.coreDesire}"의 욕구가 함께 작용합니다.
-              이 세 가지 욕구가 조화롭게 충족될 때 가장 안정적인 상태를 유지합니다.
-            </div>
-          </div>
-          <div class="synergy-item">
-            <div class="synergy-item__label">⚡ 내면의 두려움</div>
-            <div class="synergy-item__text">
-              핵심적으로 "${topEnneaData[0].data.coreFear}"를 두려워하며,
-              "${topEnneaData[1].data.coreFear}"와 "${topEnneaData[2].data.coreFear}"도 내면에 자리잡고 있습니다.
-              스트레스 상황에서 이 두려움들이 복합적으로 작용할 수 있습니다.
-            </div>
-          </div>
-          <div class="synergy-item">
-            <div class="synergy-item__label">🌱 통합적 성장 방향</div>
-            <div class="synergy-item__text">
-              ${topEnneaData[0].type}유형의 성장 방향(${topEnneaData[0].data.growthDirection})을 기본으로 삼되,
-              ${topEnneaData[1].type}유형의 강점과 ${topEnneaData[2].type}유형의 강점을 활용하는 것이 효과적입니다.
-              서로 다른 유형의 긍정적인 면을 균형있게 발전시키는 연습을 권장합니다.
+          <div class="synergy-card__body">
+            <div class="synergy-item">
+              <div class="synergy-item__label">🏆 Best Match</div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">${matchBadges}</div>
+              <div class="synergy-item__text">${compat.reason}</div>
             </div>
           </div>
         </div>
-      </div>
-    `;
+      `;
+    }
 
     // ── Friendship Tips Card ──
     const friendshipTips = MBTI_FRIENDSHIP_TIPS[mbtiType];
@@ -312,30 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
               </li>
             `).join('')}
           </ul>
-        </div>
-      `;
-    }
-
-    // ── Synergy Analysis (주 유형 기준) ──
-    const synergy = generateSynergyAnalysis(topTypes[0], mbtiType);
-    if (synergy && synergy.length > 0) {
-      html += `
-        <div class="synergy-card animate-in">
-          <div class="synergy-card__header">
-            <div class="synergy-card__icon">🔗</div>
-            <div>
-              <div class="synergy-card__title">에니어그램 × MBTI 통합 분석</div>
-              <div class="synergy-card__subtitle">${topTypes[0]}유형(주) + ${mbtiType} 조합의 역동</div>
-            </div>
-          </div>
-          <div class="synergy-card__body">
-            ${synergy.map(item => `
-              <div class="synergy-item">
-                <div class="synergy-item__label">${item.label}</div>
-                <div class="synergy-item__text">${item.text}</div>
-              </div>
-            `).join('')}
-          </div>
         </div>
       `;
     }
@@ -444,6 +400,126 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       html += `</div>`;
     }
+
+    // ══════════════════════════════════════════════════════════
+    // All-in-One 종합 분석 (Dynamic Templating Algorithm)
+    // ══════════════════════════════════════════════════════════
+    html += `<div class="section-title" style="margin-top:48px;">📋 All-in-One 종합 분석</div>`;
+    html += `<div class="synergy-card animate-in" style="margin-top:8px;">`;
+    html += `<div class="synergy-card__header"><div class="synergy-card__icon">📋</div><div><div class="synergy-card__title">${escapeHtml(name)}님의 종합 성향 리포트</div><div class="synergy-card__subtitle">모든 검사 결과를 통합한 맞춤형 분석</div></div></div>`;
+    html += `<div class="synergy-card__body">`;
+
+    // ── 1. 정체성 정의 ──
+    const mainEnnea = topEnneaData[0];
+    const subEnnea1 = topEnneaData[1];
+    const subEnnea2 = topEnneaData[2];
+    html += `
+      <div class="synergy-item">
+        <div class="synergy-item__label">🧬 정체성 정의</div>
+        <div class="synergy-item__text">
+          <strong>${escapeHtml(name)}</strong>님은 <strong>${mbtiType}(${mbti.name})</strong>의 ${mbti.keywords.slice(0, 2).join(', ')} 특성과
+          에니어그램 <strong>${mainEnnea.type}유형(${mainEnnea.data.name})</strong>의 핵심 동기인 "${mainEnnea.data.coreDesire}"가 결합된 성격 구조를 가지고 있습니다.
+          여기에 ${subEnnea1.type}유형(${subEnnea1.data.name})의 "${subEnnea1.data.coreDesire}" 욕구와
+          ${subEnnea2.type}유형(${subEnnea2.data.name})의 "${subEnnea2.data.coreDesire}" 욕구가 보조적으로 작용하여,
+          <strong>${mbti.keywords[0]}</strong>과 <strong>${mainEnnea.data.keywords[0]}</strong>을 동시에 추구하는 독특한 내면 세계를 형성합니다.
+        </div>
+      </div>
+    `;
+
+    // ── 2. 강점과 행동 패턴 ──
+    const combinedStrengths = [...new Set([...mbti.strengths.slice(0, 3), ...mainEnnea.data.strengths.slice(0, 2)])];
+    html += `
+      <div class="synergy-item">
+        <div class="synergy-item__label">💪 강점과 행동 패턴</div>
+        <div class="synergy-item__text">
+          ${mbtiType}의 "${mbti.communicationStyle.split('.')[0]}" 특성이 ${mainEnnea.type}유형의 강점인 ${mainEnnea.data.strengths.slice(0, 3).join(', ')}과 결합되어,
+          <strong>${combinedStrengths.join(', ')}</strong>에서 뛰어난 역량을 발휘합니다.
+          특히 ${mbti.workStyle.split('.')[0]}며, 이는 에니어그램 ${mainEnnea.type}유형의 "${mainEnnea.data.coreMotivation.split('.')[0]}" 동기와 맞물려 더욱 강화됩니다.
+        </div>
+      </div>
+    `;
+
+    // ── 3. 내면의 갈등 메커니즘 (선택사항 연계) ──
+    let conflictText = '';
+    const hasOptionals = coreEmotions.length > 0 || coreBeliefs.length > 0 || defenseMechanisms.length > 0;
+
+    // Base conflict from MBTI weaknesses + Enneagram core fear
+    conflictText += `${escapeHtml(name)}님의 내면에는 "${mainEnnea.data.coreFear}"라는 근본적인 두려움이 자리잡고 있으며, 이는 ${mbtiType}의 약점인 ${mbti.weaknesses.slice(0, 2).join(', ')}과 맞물려 스트레스 상황에서 표면화될 수 있습니다.`;
+
+    // Add core beliefs connection
+    if (coreBeliefs.length > 0) {
+      const beliefNames = coreBeliefs.map(id => {
+        const b = typeof CORE_BELIEFS_DATA !== 'undefined' ? CORE_BELIEFS_DATA[id] : null;
+        return b ? `"${b.def}"` : null;
+      }).filter(Boolean);
+      if (beliefNames.length > 0) {
+        conflictText += ` 이러한 성향의 기저에는 ${beliefNames.join(', ')}이라는 비합리적 신념이 무의식적으로 작동하고 있습니다.`;
+      }
+    }
+
+    // Add core emotions connection
+    if (coreEmotions.length > 0) {
+      const emotionNames = coreEmotions.map(id => {
+        const e = typeof CORE_EMOTIONS_DATA !== 'undefined' ? CORE_EMOTIONS_DATA[id] : null;
+        return e ? e.name : null;
+      }).filter(Boolean);
+      if (emotionNames.length > 0) {
+        conflictText += ` 그 결과, 스트레스나 갈등 상황에서 <strong>${emotionNames.join(', ')}</strong>을(를) 주로 경험하게 됩니다.`;
+      }
+    }
+
+    // Add defense mechanisms connection
+    if (defenseMechanisms.length > 0) {
+      const defNames = defenseMechanisms.map(id => {
+        const d = typeof DEFENSE_MECHANISMS_DATA !== 'undefined' ? DEFENSE_MECHANISMS_DATA[id] : null;
+        return d ? d.name : null;
+      }).filter(Boolean);
+      if (defNames.length > 0) {
+        conflictText += ` 이때 자아를 보호하기 위해 <strong>${defNames.join(', ')}</strong> 등의 방어기제를 사용하게 되며, 이는 에니어그램 ${mainEnnea.type}유형의 스트레스 방향(${mainEnnea.data.stressDirection.split('—')[0].trim()})과 맞물려 나타날 수 있습니다.`;
+      }
+    }
+
+    if (!hasOptionals) {
+      conflictText += ` ${mainEnnea.data.stressDirection.includes('—') ? mainEnnea.data.stressDirection.split('—')[1].trim() : ''}`;
+    }
+
+    html += `
+      <div class="synergy-item">
+        <div class="synergy-item__label">⚡ 내면의 갈등 메커니즘</div>
+        <div class="synergy-item__text">${conflictText}</div>
+      </div>
+    `;
+
+    // ── 4. 맞춤형 솔루션 및 성장 방향 ──
+    let solutionText = `${mainEnnea.type}유형의 성장 방향인 "${mainEnnea.data.growthDirection.split('—')[0].trim()}"을 기본 나침반으로 삼아, ${mainEnnea.data.growthDirection.split('—')[1] ? mainEnnea.data.growthDirection.split('—')[1].trim() : '성장의 방향으로 나아갈 수 있습니다.'}`;
+
+    // Add belief-based solution
+    if (coreBeliefs.length > 0) {
+      const firstBelief = typeof CORE_BELIEFS_DATA !== 'undefined' ? CORE_BELIEFS_DATA[coreBeliefs[0]] : null;
+      if (firstBelief) {
+        solutionText += ` 또한, "${firstBelief.def}"라는 신념에 대해 "${firstBelief.rebuttal}"라는 합리적 사고로 전환하는 연습이 핵심적인 솔루션이 됩니다.`;
+      }
+    }
+
+    // Add emotion-based growth
+    if (coreEmotions.length > 0) {
+      const firstEmotion = typeof CORE_EMOTIONS_DATA !== 'undefined' ? CORE_EMOTIONS_DATA[coreEmotions[0]] : null;
+      if (firstEmotion && firstEmotion.direction) {
+        solutionText += ` ${firstEmotion.name}에 대해서는 "${firstEmotion.direction}" 방식으로 접근하는 것이 효과적입니다.`;
+      }
+    }
+
+    // Add MBTI-specific growth
+    solutionText += ` ${mbtiType}의 관계 스타일("${mbti.relationshipStyle.split('.')[0]}")을 인식하고, 에니어그램 ${subEnnea1.type}유형과 ${subEnnea2.type}유형의 강점인 ${subEnnea1.data.strengths[0]}과 ${subEnnea2.data.strengths[0]}을 활용하면 더욱 균형 잡힌 성장이 가능합니다.`;
+
+    html += `
+      <div class="synergy-item">
+        <div class="synergy-item__label">🌱 맞춤형 솔루션 및 성장 방향</div>
+        <div class="synergy-item__text">${solutionText}</div>
+      </div>
+    `;
+
+    html += `</div></div>`; // close synergy-card
 
     // ── Action Buttons ──
     html += `
