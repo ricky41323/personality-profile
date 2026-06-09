@@ -126,6 +126,14 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="trait-section__title">핵심 동기</div>
             <p class="result-card__description" style="margin-bottom:0">${e.data.coreMotivation}</p>
           </div>
+          <div class="trait-section">
+            <div class="trait-section__title">어린시절 받는 메시지</div>
+            <div style="background:#FFF1F2; color:#be123c; padding:12px; border-radius:8px; font-weight:600; margin-top:8px; line-height:1.5;">"${e.data.childhoodMessage}"</div>
+          </div>
+          <div class="trait-section">
+            <div class="trait-section__title">형성 배경</div>
+            <p class="result-card__description" style="margin-bottom:0">${e.data.background}</p>
+          </div>
 
           <div class="trait-section">
             <div class="trait-section__title">키워드</div>
@@ -480,6 +488,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    // Add defense mechanism counsel
+    if (defenseMechanisms.length > 0) {
+      const firstDef = typeof DEFENSE_MECHANISMS_DATA !== 'undefined' ? DEFENSE_MECHANISMS_DATA[defenseMechanisms[0]] : null;
+      if (firstDef && firstDef.counsel) {
+        solutionText += `무의식적으로 자주 나타나는 ${firstDef.name} 방어기제와 관련하여, <strong>"${firstDef.counsel}"</strong>는 점을 꼭 기억해 주세요. `;
+      }
+    }
+
     solutionText += `더불어 ${subEnnea1.type}유형과 ${subEnnea2.type}유형이 가진 긍정적인 강점인 ${subEnnea1.data.strengths[0]}과 ${subEnnea2.data.strengths[0]}을 적절히 활용한다면 더 균형 잡히고 성숙한 내면을 가꿀 수 있습니다.`;
 
     html += `
@@ -509,7 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
     html += `
       <div style="text-align: center; margin-top: 40px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
         <button class="btn-new" id="captureBtn" type="button" style="background: var(--gradient-primary); color: white; border: none; box-shadow: var(--shadow-sm);">
-          <span>📸</span> 결과 캡쳐하기
+          <span>📸</span> 이미지로 저장하기
         </button>
         <button class="btn-new" id="newAnalysisBtn" type="button">
           <span>↩️</span> 새로운 분석 시작
@@ -537,7 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (captureBtn) {
       captureBtn.addEventListener('click', async () => {
         const originalText = captureBtn.innerHTML;
-        captureBtn.innerHTML = '<span>⏳</span> 캡쳐 중...';
+        captureBtn.innerHTML = '<span>⏳</span> 이미지 저장 중...';
         captureBtn.disabled = true;
 
         // Hide buttons during capture
