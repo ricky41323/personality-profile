@@ -935,10 +935,10 @@ p {
   background: var(--bg-input);
 }
 
-.defense-group-title--narcissistic { color: var(--accent-rose); }
-.defense-group-title--immature { color: var(--accent-orange); }
-.defense-group-title--neurotic { color: var(--accent-amber); }
-.defense-group-title--mature { color: var(--accent-emerald); }
+.defense-group-title--narcissistic { color: var(--text-title); }
+.defense-group-title--immature { color: var(--text-title); }
+.defense-group-title--neurotic { color: var(--text-title); }
+.defense-group-title--mature { color: var(--text-title); }
 
 .defense-group-box .checkbox-grid {
   padding: 16px;

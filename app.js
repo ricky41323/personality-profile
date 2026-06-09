@@ -409,7 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Defense Mechanisms Section ──
     if (defenseMechanisms.length > 0) {
       html += `
-        <div class="section-title" style="margin-top:40px;">🛡️ 방어기재 분석</div>
+        <div class="section-title" style="margin-top:40px;">🛡️ 방어기제 분석</div>
         <div class="result-cards">`;
       defenseMechanisms.forEach(id => {
         const def = typeof DEFENSE_MECHANISMS_DATA !== 'undefined' ? DEFENSE_MECHANISMS_DATA[id] : null;
