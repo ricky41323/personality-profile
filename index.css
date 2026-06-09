@@ -240,6 +240,8 @@ body {
   font-family: var(--font-primary);
   font-size: 1rem;
   font-weight: 500;
+  min-width: 0;
+  text-overflow: ellipsis;
   transition: all var(--transition-fast);
   outline: none;
   appearance: none;
