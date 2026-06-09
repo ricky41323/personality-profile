@@ -52,7 +52,7 @@ const DEFENSE_MECHANISMS_DATA = {
   11: { level: '신경증적 단계', levelClass: 'neurotic', name: '반동형성 (Reaction Formation)', def: '자신이 느끼는 것과 반대되는 태도로 감정을 표현하고 행동', examples: ['화가 나는데 웃는 것', '미운 놈에게 떡 하나 더 준다'], counsel: '본인 욕구를 수용받을 수 있다는 지지기반이 필요. 계속 반대로 행동하면 자신이 원하는 것을 모르게 됨.' },
   12: { level: '신경증적 단계', levelClass: 'neurotic', name: '전치 (Displacement)', def: '자신의 갈등/갈증 해소를 위해 대상을 이동시키는 성향', examples: ['종로에서 뺨 맞고 한강에서 화풀이 한다'], counsel: '상황에 적절치 못한 감정 방출로 다른 대상이 억울해짐. 감정의 정확한 원인을 파악해 근본 해결해야 함.' },
   13: { level: '신경증적 단계', levelClass: 'neurotic', name: '통제 (Control)', def: '갈등/주변 상황을 지나치지 못하고 자신이 조정/간섭하려는 성향', examples: ['모든 것을 주도하려 함', '옆에서 훈수 두기'], counsel: '독단적인 모습으로 타인에게 불편을 줌. 나의 내면의 불안을 마주하는 것이 필요.' },
-  14: { level: '신경증적 단계', levelClass: 'neurotic', name: '합리화 (Rationalization)', def: '객관적으로 잘못된 행동을 정당화시키는 성향', examples: ['핑계 없는 무덤 없다', '널 위해서 이러는거야'], counsel: '정당화로 정서적 안정은 얻지만 행동 변화는 어려움. 자신에 대해 깊이 통찰하는 시간이 필요.' },
+  14: { level: '신경증 단계', levelClass: 'neurotic', name: '합리화 (Rationalization)', def: '자신의 잘못된 행동을 정당화시키는 것', examples: ['핑계를 대는 것', '다 이유가 이래서 그렇다고 하는 것'], counsel: '자신의 행동을 정당화하고 합리화함으로써 상당한 정서적 안정감을 얻게 될 것이다. 그러나 자신의 행동에 대한 깊은 통찰력을 바탕으로 하는 행동의 변화는 어려울 것이다. 자신에 대해 통찰하는 시간이 필요하다' },
   15: { level: '신경증적 단계', levelClass: 'neurotic', name: '해리 (Dissociation)', def: '괴로움이나 갈등상태에 놓인 인격 일부를 다른 부분과 분리하는 것', examples: ['이중인격 (킬미힐미)'], counsel: '현실의 내가 정체성을 찾고 문제를 해결하는 태도가 필요.' },
   // 성숙 단계
   16: { level: '성숙 단계', levelClass: 'mature', name: '억제 (Suppression)', def: '견디기 힘든 생각/감정을 의식적으로 잊고 미루려고 노력하는 것', examples: ['나중에 생각해야겠다'], counsel: '능동적 대처일 수 있으나 문제해결 가능성을 놓칠 수 있음. 억제가 회피로 끝나는지 돌아봐야 함.' },
