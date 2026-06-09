@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="trait-section">
               <div class="trait-section__title">성장 및 방향 제시</div>
-              <p class="result-card__description" style="color:var(--accent-emerald); font-weight:500;">${emo.direction}</p>
+              <p class="result-card__description" style="color:#059669; font-weight:600;">${emo.direction}</p>
             </div>
           </div>
         `;
@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="trait-section">
               <div class="trait-section__title">합리적 논박 (해결책)</div>
-              <p class="result-card__description" style="color:var(--accent-cyan); font-weight:500;">${bel.rebuttal}</p>
+              <p class="result-card__description" style="color:#0284c7; font-weight:600;">${bel.rebuttal}</p>
             </div>
           </div>
         `;
@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="trait-section">
               <div class="trait-section__title">상담 멘트</div>
-              <p class="result-card__description" style="color:var(--accent-purple); font-weight:500;">${def.counsel}</p>
+              <p class="result-card__description" style="color:var(--toss-blue); font-weight:600;">${def.counsel}</p>
             </div>
           </div>
         `;

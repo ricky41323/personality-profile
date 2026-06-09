@@ -527,68 +527,68 @@ const MBTI_FRIENDSHIP_TIPS = {
 
 const MBTI_COMPATIBILITY = {
   "INTJ": {
-    bestMatch: ["ENFP", "ENTP"],
-    reason: "ENFP/ENTP의 열정적이고 창의적인 에너지가 INTJ의 전략적 사고와 결합되면, 비전을 현실로 만드는 강력한 시너지가 발생합니다. 직관(N) 기반의 깊은 대화가 가능하며, 서로의 부족한 부분을 자연스럽게 채워줍니다."
+    bestMatch: ["ENFP", "ENTP", "INFJ", "INFP"],
+    reason: "ENFP/ENTP의 창의적인 에너지와 직관(N) 기반의 깊은 대화가 INTJ의 전략적 사고에 활력을 주며, INFJ/INFP와는 깊은 내면의 가치와 통찰을 공유할 수 있는 이상적인 조합입니다."
   },
   "INTP": {
-    bestMatch: ["ENTJ", "ENFJ"],
-    reason: "ENTJ/ENFJ의 결단력과 추진력이 INTP의 깊은 분석력에 실행력을 더해줍니다. INTP가 머릿속에서 구상한 아이디어를 현실로 끌어내 주는 파트너이며, 지적 교류가 풍부한 관계를 만듭니다."
+    bestMatch: ["ENTJ", "ENFJ", "INTJ", "INFJ"],
+    reason: "ENTJ/ENFJ의 추진력이 INTP의 깊은 분석력에 실행력을 더해주며, INTJ/INFJ와는 끊임없는 지적 교류와 깊이 있는 대화를 통해 서로의 성장을 자극하는 관계를 만듭니다."
   },
   "ENTJ": {
-    bestMatch: ["INTP", "INFP"],
-    reason: "INTP/INFP의 깊은 사고력과 창의성이 ENTJ의 실행력과 리더십에 새로운 관점을 제공합니다. ENTJ가 놓치기 쉬운 내면의 가치와 감정적 깊이를 보완받을 수 있는 조합입니다."
+    bestMatch: ["INTP", "INFP", "INTJ", "ENFP"],
+    reason: "INTP/INFP의 깊은 사고력과 통찰이 ENTJ의 실행력에 새로운 관점을 제공하며, INTJ나 ENFP와는 각자의 비전을 공유하며 폭발적인 시너지를 낼 수 있는 조합입니다."
   },
   "ENTP": {
-    bestMatch: ["INFJ", "INTJ"],
-    reason: "INFJ/INTJ의 깊은 통찰력과 집중력이 ENTP의 창의적 에너지에 방향성을 부여합니다. 아이디어를 실현 가능한 비전으로 다듬어주며, 끝없는 지적 탐구를 함께 즐길 수 있습니다."
+    bestMatch: ["INFJ", "INTJ", "INFP", "ENFP"],
+    reason: "INFJ/INTJ의 깊은 통찰력과 집중력이 ENTP의 창의적 에너지에 안정된 방향성을 부여하며, INFP/ENFP와는 상상력 넘치는 아이디어를 무한히 나눌 수 있습니다."
   },
   "INFJ": {
-    bestMatch: ["ENFP", "ENTP"],
-    reason: "ENFP/ENTP의 에너지와 낙관주의가 INFJ의 내면 세계에 활력을 불어넣습니다. 직관(N) 기반의 깊은 대화가 자연스럽게 이뤄지며, INFJ가 소중히 여기는 진정성 있는 관계를 형성할 수 있습니다."
+    bestMatch: ["ENFP", "ENTP", "INTJ", "INFP"],
+    reason: "ENFP/ENTP의 에너지와 낙관주의가 INFJ의 내면에 활력을 불어넣고, INTJ/INFP와는 가치관의 일치와 정서적 깊이를 통해 진정성 있고 굳건한 관계를 형성할 수 있습니다."
   },
   "INFP": {
-    bestMatch: ["ENFJ", "ENTJ"],
-    reason: "ENFJ/ENTJ의 리더십과 실행력이 INFP의 풍부한 내면과 창의성에 구조와 방향을 제공합니다. INFP의 이상주의가 현실에서 꽃필 수 있도록 도와주는 안정적이면서도 성장을 자극하는 관계입니다."
+    bestMatch: ["ENFJ", "ENTJ", "INFJ", "INTJ"],
+    reason: "ENFJ/ENTJ의 리더십과 실행력이 INFP의 이상주의가 현실에서 꽃필 수 있도록 도와주며, INFJ/INTJ와는 서로의 깊은 감수성과 철학을 이해해 주는 영혼의 단짝이 될 수 있습니다."
   },
   "ENFJ": {
-    bestMatch: ["INFP", "ISFP"],
-    reason: "INFP/ISFP의 진정성과 감수성이 ENFJ의 따뜻한 리더십과 조화를 이룹니다. 서로의 감정을 깊이 이해하며, ENFJ가 돌보고 INFP/ISFP가 영감을 주는 상호 보완적인 관계를 만듭니다."
+    bestMatch: ["INFP", "ISFP", "INTP", "ISTP"],
+    reason: "INFP/ISFP의 진정성이 ENFJ의 따뜻한 리더십과 완벽한 조화를 이루며, INTP/ISTP와는 서로가 가지지 못한 감정과 논리의 영역을 보완하며 성장하는 관계를 만듭니다."
   },
   "ENFP": {
-    bestMatch: ["INFJ", "INTJ"],
-    reason: "INFJ/INTJ의 깊이와 집중력이 ENFP의 열정적 에너지에 안정감을 줍니다. 직관(N) 기반의 풍부한 대화가 가능하며, ENFP의 다양한 아이디어에 깊이를 더해주는 균형 잡힌 관계입니다."
+    bestMatch: ["INFJ", "INTJ", "INFP", "ENFJ"],
+    reason: "INFJ/INTJ의 깊이와 집중력이 ENFP의 열정적 에너지에 든든한 안정감을 주고, INFP/ENFJ와는 감정의 교류와 이상주의적 가치관을 공유하며 깊은 유대감을 형성합니다."
   },
   "ISTJ": {
-    bestMatch: ["ESFP", "ESTP"],
-    reason: "ESFP/ESTP의 유연함과 즉흥성이 ISTJ의 체계적이고 안정적인 성향에 활력을 불어넣습니다. ISTJ가 제공하는 안정감 위에서 ESFP/ESTP의 에너지가 관계에 재미와 새로움을 더합니다."
+    bestMatch: ["ESFP", "ESTP", "ISFJ", "ISTP"],
+    reason: "ESFP/ESTP의 유연함과 에너지가 ISTJ의 체계적인 삶에 신선한 활력을 주며, ISFJ/ISTP와는 현실 감각을 공유하고 서로를 실질적으로 돕는 신뢰감 넘치는 관계가 됩니다."
   },
   "ISFJ": {
-    bestMatch: ["ESFP", "ESTP"],
-    reason: "ESFP/ESTP의 사교적이고 활발한 에너지가 ISFJ의 조용하지만 따뜻한 돌봄과 균형을 이룹니다. ISFJ의 세심한 배려에 ESFP/ESTP가 적극적으로 감사와 애정을 표현하는 조화로운 관계입니다."
+    bestMatch: ["ESFP", "ESTP", "ISFP", "ISTJ"],
+    reason: "ESFP/ESTP의 사교적인 에너지가 ISFJ의 헌신적인 돌봄과 균형을 이루며, ISFP/ISTJ와는 같은 감각(S)을 바탕으로 평온하고 편안한 일상의 행복을 공유할 수 있습니다."
   },
   "ESTJ": {
-    bestMatch: ["ISFP", "ISTP"],
-    reason: "ISFP/ISTP의 유연성과 적응력이 ESTJ의 체계적인 리더십에 부드러움을 더합니다. ESTJ가 구조를 만들고 ISFP/ISTP가 그 안에서 자유롭게 움직이며 서로에게 새로운 관점을 제공합니다."
+    bestMatch: ["ISFP", "ISTP", "ESFJ", "ESTP"],
+    reason: "ISFP/ISTP의 유연성과 차분함이 ESTJ의 체계적인 리더십에 부드러움을 더해주며, ESFJ/ESTP와는 함께 현실적인 문제를 빠르고 유쾌하게 해결해 나가는 훌륭한 파트너가 됩니다."
   },
   "ESFJ": {
-    bestMatch: ["ISFP", "ISTP"],
-    reason: "ISFP/ISTP의 독립적이고 차분한 성향이 ESFJ의 사교적이고 돌보는 성향과 균형을 이룹니다. ESFJ의 따뜻함이 ISFP/ISTP의 마음을 열어주고, 서로 다른 강점이 관계를 풍요롭게 합니다."
+    bestMatch: ["ISFP", "ISTP", "ISFJ", "ESFP"],
+    reason: "ISFP/ISTP의 독립적인 성향이 ESFJ의 사교적이고 돌보는 성향과 건강한 균형을 이루며, ISFJ/ESFP와는 서로의 다정함과 현실적인 감각을 나누며 따뜻한 관계를 맺습니다."
   },
   "ISTP": {
-    bestMatch: ["ESFJ", "ESTJ"],
-    reason: "ESFJ/ESTJ의 따뜻한 사교성과 조직력이 ISTP의 독립적이고 분석적인 성향에 사회적 연결고리를 제공합니다. ISTP의 문제 해결 능력이 빛나는 실용적이면서도 정서적으로 균형 잡힌 관계입니다."
+    bestMatch: ["ESFJ", "ESTJ", "ESTP", "ISFP"],
+    reason: "ESFJ/ESTJ의 다정한 사교성과 조직력이 ISTP의 독립적인 성향에 훌륭한 사회적 연결고리를 제공하며, ESTP/ISFP와는 활동적이고 감각적인 취미를 함께 즐기기 좋습니다."
   },
   "ISFP": {
-    bestMatch: ["ENFJ", "ESFJ", "ESTJ"],
-    reason: "ENFJ/ESFJ/ESTJ의 적극적이고 구조적인 성향이 ISFP의 자유로운 감성에 안정감을 줍니다. ISFP의 예술적 감수성이 관계에 아름다움을 더하고, 상대방의 리더십이 ISFP의 잠재력을 이끌어줍니다."
+    bestMatch: ["ENFJ", "ESFJ", "ESTJ", "ISTP"],
+    reason: "ENFJ/ESFJ/ESTJ의 적극적인 성향이 ISFP의 자유로운 감성에 든든한 안정감과 방향을 제공하며, ISTP와는 서로의 독립성을 존중하며 현실적인 즐거움을 공유할 수 있습니다."
   },
   "ESTP": {
-    bestMatch: ["ISFJ", "ISTJ"],
-    reason: "ISFJ/ISTJ의 안정감과 헌신이 ESTP의 역동적인 에너지에 든든한 기반을 제공합니다. ESTP의 모험심과 ISFJ/ISTJ의 꾸준함이 결합되어 흥미롭고 안정적인 관계를 형성합니다."
+    bestMatch: ["ISFJ", "ISTJ", "ISTP", "ESFP"],
+    reason: "ISFJ/ISTJ의 안정감과 헌신이 ESTP의 역동적인 에너지에 굳건한 닻 역할을 해주며, ISTP/ESFP와는 지루할 틈 없는 짜릿한 모험과 실용적인 경험을 함께 나눌 수 있습니다."
   },
   "ESFP": {
-    bestMatch: ["ISFJ", "ISTJ"],
-    reason: "ISFJ/ISTJ의 신뢰성과 인내심이 ESFP의 활발하고 자유로운 성향에 안정감을 줍니다. ESFP가 관계에 즐거움과 에너지를, ISFJ/ISTJ가 깊이와 안정감을 더하는 보완적인 조합입니다."
+    bestMatch: ["ISFJ", "ISTJ", "ESFJ", "ESTP"],
+    reason: "ISFJ/ISTJ의 든든한 신뢰성과 인내심이 ESFP의 자유로운 성향에 따뜻한 안식처를 제공하며, ESFJ/ESTP와는 넘치는 에너지로 세상을 함께 즐기는 훌륭한 콤비가 됩니다."
   }
 };
 
