@@ -221,6 +221,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 
 .form-group label {
@@ -236,6 +237,7 @@ body {
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   padding: 16px 16px;
+  width: 100%;
   color: var(--text-title);
   font-family: var(--font-primary);
   font-size: 1rem;
