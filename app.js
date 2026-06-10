@@ -56,6 +56,31 @@ document.addEventListener('DOMContentLoaded', () => {
   mbtiInput.addEventListener('input', validateForm);
   enneaInput.addEventListener('input', validateForm);
 
+  // URL Parameter Parsing for Shared Links
+  const urlParams = new URLSearchParams(window.location.search);
+  const dParam = urlParams.get('d');
+  if (dParam) {
+    try {
+      const decodedStr = decodeURIComponent(atob(dParam));
+      const data = JSON.parse(decodedStr);
+      nameInput.value = data.n || '';
+      mbtiInput.value = data.m || '';
+      enneaInput.value = data.t ? data.t.join('') : '';
+      
+      if (data.ce) data.ce.forEach(v => { const cb = document.querySelector(`input[name="coreEmotions"][value="${v}"]`); if(cb) cb.checked = true; });
+      if (data.cb) data.cb.forEach(v => { const cb = document.querySelector(`input[name="coreBeliefs"][value="${v}"]`); if(cb) cb.checked = true; });
+      if (data.dm) data.dm.forEach(v => { const cb = document.querySelector(`input[name="defenseMechanisms"][value="${v}"]`); if(cb) cb.checked = true; });
+      
+      setTimeout(() => {
+        if (validateForm()) {
+          analyzeBtn.click();
+        }
+      }, 100);
+    } catch (e) {
+      console.error('Invalid shared link');
+    }
+  }
+
   // Form submit
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -524,8 +549,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Action Buttons ──
     html += `
       <div style="text-align: center; margin-top: 40px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
-        <button class="btn-new" id="captureBtn" type="button" style="background: var(--gradient-primary); color: white; border: none; box-shadow: var(--shadow-sm);">
-          <span>📸</span> 이미지로 저장하기
+        <button class="btn-new" id="copyLinkBtn" type="button" style="background: var(--gradient-primary); color: white; border: none; box-shadow: var(--shadow-sm);">
+          <span>🔗</span> 결과 링크 복사하기
         </button>
         <button class="btn-new" id="newAnalysisBtn" type="button">
           <span>↩️</span> 새로운 분석 시작
@@ -548,113 +573,33 @@ document.addEventListener('DOMContentLoaded', () => {
       nameInput.focus();
     });
 
-    // Capture button handler
-    const captureBtn = document.getElementById('captureBtn');
-    if (captureBtn) {
-      captureBtn.addEventListener('click', async () => {
-        const originalText = captureBtn.innerHTML;
-        captureBtn.innerHTML = '<span>⏳</span> 이미지 저장 중...';
-        captureBtn.disabled = true;
-
-        // Hide buttons during capture
-        const actionButtons = captureBtn.parentElement;
-        actionButtons.style.display = 'none';
-
+    // Copy Link button handler
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    if (copyLinkBtn) {
+      copyLinkBtn.addEventListener('click', async () => {
+        const payload = {
+          n: nameInput.value.trim(),
+          m: parseMBTI(mbtiInput.value),
+          t: parseEnnea(enneaInput.value),
+          ce: Array.from(document.querySelectorAll('input[name="coreEmotions"]:checked')).map(cb => parseInt(cb.value)),
+          cb: Array.from(document.querySelectorAll('input[name="coreBeliefs"]:checked')).map(cb => parseInt(cb.value)),
+          dm: Array.from(document.querySelectorAll('input[name="defenseMechanisms"]:checked')).map(cb => parseInt(cb.value))
+        };
+        
         try {
-          const isMobile = window.innerWidth <= 768;
-          const canvas = await html2canvas(resultsSection, {
-            scale: isMobile ? 1 : 2, // 모바일 메모리 초과 방지 (1.0으로 낮춤)
-            useCORS: true,
-            backgroundColor: '#f8fafc'
-          });
-          
-          const filename = `${name}_성향분석결과.png`;
-          const dataUrl = canvas.toDataURL('image/png');
+          const encoded = btoa(encodeURIComponent(JSON.stringify(payload)));
+          const url = new URL(window.location.href);
+          url.searchParams.set('d', encoded);
+          url.searchParams.delete('v');
+          const linkStr = url.toString();
 
-          if (isMobile) {
-            // 모바일 환경: 이미지 모달을 띄워서 길게 눌러 저장하도록 유도
-            showImageModal(dataUrl);
-          } else {
-            // PC 환경: 즉시 다운로드
-            fallbackDownload(dataUrl, filename);
-          }
+          await navigator.clipboard.writeText(linkStr);
+          const originalText = copyLinkBtn.innerHTML;
+          copyLinkBtn.innerHTML = '<span>✅</span> 링크 복사 완료!';
+          setTimeout(() => { copyLinkBtn.innerHTML = originalText; }, 2000);
         } catch (err) {
-          console.error('캡쳐 실패:', err);
-          alert('결과 캡쳐에 실패했습니다. (메모리 부족 또는 브라우저 제한일 수 있습니다)');
-        } finally {
-          // Restore buttons
-          actionButtons.style.display = 'flex';
-          captureBtn.innerHTML = originalText;
-          captureBtn.disabled = false;
+          alert('링크 복사에 실패했습니다. 다른 브라우저를 이용해주세요.');
         }
-      });
-    }
-
-    function fallbackDownload(dataUrl, filename) {
-      const link = document.createElement('a');
-      link.download = filename;
-      link.href = dataUrl;
-      link.click();
-    }
-
-    function showImageModal(dataUrl) {
-      const overlay = document.createElement('div');
-      overlay.style.position = 'fixed';
-      overlay.style.top = '0';
-      overlay.style.left = '0';
-      overlay.style.width = '100%';
-      overlay.style.height = '100%';
-      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
-      overlay.style.zIndex = '9999';
-      overlay.style.display = 'flex';
-      overlay.style.flexDirection = 'column';
-      overlay.style.alignItems = 'center';
-      overlay.style.justifyContent = 'center';
-      overlay.style.padding = '20px';
-      
-      const closeBtn = document.createElement('button');
-      closeBtn.innerHTML = '✕ 닫기';
-      closeBtn.style.position = 'absolute';
-      closeBtn.style.top = '20px';
-      closeBtn.style.right = '20px';
-      closeBtn.style.background = 'white';
-      closeBtn.style.color = '#333';
-      closeBtn.style.border = 'none';
-      closeBtn.style.padding = '8px 16px';
-      closeBtn.style.borderRadius = '20px';
-      closeBtn.style.fontWeight = 'bold';
-      closeBtn.style.cursor = 'pointer';
-      closeBtn.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
-      
-      const guideText = document.createElement('div');
-      guideText.innerHTML = '📸 <strong>이미지를 길게 눌러서 \'내 폰에 저장\'</strong> 해주세요!';
-      guideText.style.color = 'white';
-      guideText.style.marginBottom = '16px';
-      guideText.style.fontSize = '1.1rem';
-      guideText.style.textAlign = 'center';
-      guideText.style.lineHeight = '1.4';
-
-      const imgWrapper = document.createElement('div');
-      imgWrapper.style.overflowY = 'auto';
-      imgWrapper.style.maxWidth = '100%';
-      imgWrapper.style.maxHeight = '80vh';
-      imgWrapper.style.borderRadius = '12px';
-      imgWrapper.style.boxShadow = '0 10px 25px rgba(0,0,0,0.3)';
-      
-      const img = document.createElement('img');
-      img.src = dataUrl;
-      img.style.width = '100%';
-      img.style.display = 'block';
-      
-      imgWrapper.appendChild(img);
-      overlay.appendChild(closeBtn);
-      overlay.appendChild(guideText);
-      overlay.appendChild(imgWrapper);
-      
-      document.body.appendChild(overlay);
-      
-      closeBtn.addEventListener('click', () => {
-        document.body.removeChild(overlay);
       });
     }
   }
