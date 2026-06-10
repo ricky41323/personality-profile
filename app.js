@@ -563,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
           const isMobile = window.innerWidth <= 768;
           const canvas = await html2canvas(resultsSection, {
-            scale: isMobile ? 1.5 : 2, // 모바일 메모리 초과 방지
+            scale: isMobile ? 1 : 2, // 모바일 메모리 초과 방지 (1.0으로 낮춤)
             useCORS: true,
             backgroundColor: '#f8fafc'
           });
