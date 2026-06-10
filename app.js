@@ -561,36 +561,26 @@ document.addEventListener('DOMContentLoaded', () => {
         actionButtons.style.display = 'none';
 
         try {
+          const isMobile = window.innerWidth <= 768;
           const canvas = await html2canvas(resultsSection, {
-            scale: 2,
+            scale: isMobile ? 1.5 : 2, // 모바일 메모리 초과 방지
             useCORS: true,
             backgroundColor: '#f8fafc'
           });
           
           const filename = `${name}_성향분석결과.png`;
-          const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-          const file = new File([blob], filename, { type: 'image/png' });
+          const dataUrl = canvas.toDataURL('image/png');
 
-          // Web Share API를 지원하면 네이티브 공유(갤러리 저장 등) 메뉴 호출
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            try {
-              await navigator.share({
-                files: [file],
-                title: '대상자 종합 분석 결과'
-              });
-            } catch (err) {
-              // 사용자가 취소한 경우는 무시, 에러일 경우 다운로드 폴백
-              if (err.name !== 'AbortError') {
-                fallbackDownload(canvas, filename);
-              }
-            }
+          if (isMobile) {
+            // 모바일 환경: 이미지 모달을 띄워서 길게 눌러 저장하도록 유도
+            showImageModal(dataUrl);
           } else {
-            // 지원하지 않으면 일반 다운로드
-            fallbackDownload(canvas, filename);
+            // PC 환경: 즉시 다운로드
+            fallbackDownload(dataUrl, filename);
           }
         } catch (err) {
           console.error('캡쳐 실패:', err);
-          alert('결과 캡쳐에 실패했습니다.');
+          alert('결과 캡쳐에 실패했습니다. (메모리 부족 또는 브라우저 제한일 수 있습니다)');
         } finally {
           // Restore buttons
           actionButtons.style.display = 'flex';
@@ -600,11 +590,72 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    function fallbackDownload(canvas, filename) {
+    function fallbackDownload(dataUrl, filename) {
       const link = document.createElement('a');
       link.download = filename;
-      link.href = canvas.toDataURL('image/png');
+      link.href = dataUrl;
       link.click();
+    }
+
+    function showImageModal(dataUrl) {
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+      overlay.style.zIndex = '9999';
+      overlay.style.display = 'flex';
+      overlay.style.flexDirection = 'column';
+      overlay.style.alignItems = 'center';
+      overlay.style.justifyContent = 'center';
+      overlay.style.padding = '20px';
+      
+      const closeBtn = document.createElement('button');
+      closeBtn.innerHTML = '✕ 닫기';
+      closeBtn.style.position = 'absolute';
+      closeBtn.style.top = '20px';
+      closeBtn.style.right = '20px';
+      closeBtn.style.background = 'white';
+      closeBtn.style.color = '#333';
+      closeBtn.style.border = 'none';
+      closeBtn.style.padding = '8px 16px';
+      closeBtn.style.borderRadius = '20px';
+      closeBtn.style.fontWeight = 'bold';
+      closeBtn.style.cursor = 'pointer';
+      closeBtn.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+      
+      const guideText = document.createElement('div');
+      guideText.innerHTML = '📸 <strong>이미지를 길게 눌러서 \'내 폰에 저장\'</strong> 해주세요!';
+      guideText.style.color = 'white';
+      guideText.style.marginBottom = '16px';
+      guideText.style.fontSize = '1.1rem';
+      guideText.style.textAlign = 'center';
+      guideText.style.lineHeight = '1.4';
+
+      const imgWrapper = document.createElement('div');
+      imgWrapper.style.overflowY = 'auto';
+      imgWrapper.style.maxWidth = '100%';
+      imgWrapper.style.maxHeight = '80vh';
+      imgWrapper.style.borderRadius = '12px';
+      imgWrapper.style.boxShadow = '0 10px 25px rgba(0,0,0,0.3)';
+      
+      const img = document.createElement('img');
+      img.src = dataUrl;
+      img.style.width = '100%';
+      img.style.display = 'block';
+      
+      imgWrapper.appendChild(img);
+      overlay.appendChild(closeBtn);
+      overlay.appendChild(guideText);
+      overlay.appendChild(imgWrapper);
+      
+      document.body.appendChild(overlay);
+      
+      closeBtn.addEventListener('click', () => {
+        document.body.removeChild(overlay);
+      });
     }
   }
 
